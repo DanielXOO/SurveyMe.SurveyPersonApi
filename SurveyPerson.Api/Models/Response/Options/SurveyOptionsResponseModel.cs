@@ -1,9 +1,7 @@
-﻿namespace SurveyPerson.Api.Models.Requests;
+﻿namespace SurveyPerson.Api.Models.Response.Options;
 
-public sealed class OptionsEditRequestModel
+public sealed class SurveyOptionsResponseModel
 {
-    public Guid Id { get; set; }
-
     public Guid SurveyId { get; set; }
 
     public bool RequireFirstName { get; set; }
