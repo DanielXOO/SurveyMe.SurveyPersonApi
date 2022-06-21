@@ -79,7 +79,7 @@ public class SurveyPersonController : Controller
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost]
-    public async Task<IActionResult> AddSurvey(SurveyOptionsCreateRequestModel createRequestModel)
+    public async Task<IActionResult> AddOptions(SurveyOptionsCreateRequestModel createRequestModel)
     {
         if (createRequestModel == null)
         {
