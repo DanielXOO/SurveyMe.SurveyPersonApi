@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "SuveyPerson.Api": {
+    "SurveyPerson.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
