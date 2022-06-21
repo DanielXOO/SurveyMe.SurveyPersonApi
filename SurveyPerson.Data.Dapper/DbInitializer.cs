@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using DbUp;
+﻿using DbUp;
 using SurveyMe.Common.Logging.Abstracts;
 
 namespace SurveyPerson.Data.Dapper;
