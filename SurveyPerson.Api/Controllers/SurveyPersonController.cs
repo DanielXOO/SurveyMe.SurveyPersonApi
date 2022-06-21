@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SurveyMe.Common.Exceptions;
 using SurveyPerson.Api.Models.Requests.Options;
@@ -9,6 +10,7 @@ using SurveyPerson.Services.Abstracts;
 namespace SurveyPerson.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class SurveyPersonController : Controller
 {

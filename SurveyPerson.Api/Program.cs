@@ -1,3 +1,4 @@
+using IdentityServer4.AccessTokenValidation;
 using SurveyMe.Common.Logging;
 using SurveyPerson.Api.Extensions;
 using SurveyPerson.Data.Dapper;
@@ -35,6 +36,16 @@ builder.Services.AddAutoMapper(opt =>
     opt.AddMaps(typeof(Program).Assembly);
 }); 
 
+builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+    .AddIdentityServerAuthentication(options =>
+    {
+        options.Authority = "https://localhost:7179";
+        options.RequireHttpsMetadata = false;
+        options.ApiName = "SurveyMeApi";
+        options.ApiSecret = "api_secret";
+        options.JwtValidationClockSkew = TimeSpan.FromSeconds(1);
+    });
+
 var app = builder.Build();
 
 app.Services.CreateDbIfNotExists(connectionString);
@@ -49,6 +60,7 @@ app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
