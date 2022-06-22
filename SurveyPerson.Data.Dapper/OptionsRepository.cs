@@ -40,7 +40,7 @@ public sealed class OptionsRepository : IOptionsRepository
     {
         const string sql = "SELECT * FROM GetOptionsById(@Id)";
 
-        var options = await _connection.QuerySingleOrDefaultAsync(sql, new
+        var options = await _connection.QuerySingleOrDefaultAsync<SurveyPersonOptions>(sql, new
         {
             Id = id
         }, _transaction);

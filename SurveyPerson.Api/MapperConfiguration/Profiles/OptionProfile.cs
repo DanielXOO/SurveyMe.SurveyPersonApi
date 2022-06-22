@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SurveyPerson.Api.Models.Requests.Options;
-using SurveyPerson.Api.Models.Response.Options;
+using SurveyMe.SurveyPersonApi.Models.Request.Options;
+using SurveyMe.SurveyPersonApi.Models.Response.Options;
 using SurveyPerson.Models.Options;
 
 namespace SurveyPerson.Api.MapperConfiguration.Profiles;

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SurveyMe.Common.Exceptions;
-using SurveyPerson.Api.Models.Requests.Options;
-using SurveyPerson.Api.Models.Response.Options;
+using SurveyMe.SurveyPersonApi.Models.Request.Options;
+using SurveyMe.SurveyPersonApi.Models.Response.Options;
 using SurveyPerson.Models.Options;
 using SurveyPerson.Services.Abstracts;
 
@@ -77,7 +77,7 @@ public class SurveyPersonController : Controller
         return NoContent();
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpPost]
     public async Task<IActionResult> AddOptions(SurveyOptionsCreateRequestModel createRequestModel)
     {
@@ -98,8 +98,10 @@ public class SurveyPersonController : Controller
 
         var options = _mapper.Map<SurveyPersonOptions>(createRequestModel);
 
+        options.Id = Guid.NewGuid();
+        
         await _optionsService.CreateAsync(options);
         
-        return NoContent();
+        return Ok(options.Id);
     }
 }

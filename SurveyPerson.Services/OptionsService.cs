@@ -18,7 +18,6 @@ public sealed class OptionsService : IOptionsService
     
     public async Task CreateAsync(SurveyPersonOptions options)
     {
-        options.Id = Guid.NewGuid();
         await _unitOfWork.Options.CreateAsync(options);
         
         _unitOfWork.Commit();
