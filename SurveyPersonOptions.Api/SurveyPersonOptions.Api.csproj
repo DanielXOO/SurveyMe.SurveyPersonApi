@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+        <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0-dev-00067" />
+        <PackageReference Include="SurveyMe.Error.Models" Version="1.0.0" />
+        <PackageReference Include="SurveyMe.SurveyPersonApi.Models" Version="1.1.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SurveyPersonOptions.Data.Dapper\SurveyPersonOptions.Data.Dapper.csproj" />
+      <ProjectReference Include="..\SurveyPersonOptions.Services\SurveyPersonOptions.Services.csproj" />
+    </ItemGroup>
+
+</Project>
