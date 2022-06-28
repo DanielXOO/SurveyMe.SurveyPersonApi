@@ -20,15 +20,13 @@ public sealed class SurveyOptionsRepository : ISurveyOptionsRepository
     }
     
     
-    public async Task<Guid> CreateAsync(SurveyOptions options)
+    public async Task CreateAsync(SurveyOptions options)
     {
         const string sqlCreateSurveyOption = "EXEC AddNewSurveyOption @SurveyOptionsId, @SurveyId";
 
-        var surveyOptionId = Guid.NewGuid();
-        
         await _connection.ExecuteAsync(sqlCreateSurveyOption, new
         {
-            SurveyOptionsId = surveyOptionId,
+            SurveyOptionsId = options.SurveyOptionsId,
             SurveyId = options.SurveyId,
         }, _transaction);
 
@@ -40,14 +38,12 @@ public sealed class SurveyOptionsRepository : ISurveyOptionsRepository
             await _connection.ExecuteAsync(sqlCreatePersonalityOption, new
             {
                 PersonalityOptionId = Guid.NewGuid(),
-                SurveyOptionsId = surveyOptionId,
+                SurveyOptionsId = options.SurveyOptionsId,
                 PropertyName = personalityOption.PropertyName,
                 IsRequired = personalityOption.IsRequired,
                 Type = personalityOption.Type
             }, _transaction);
         }
-
-        return surveyOptionId;
     }
 
     public async Task<SurveyOptions> GetByIdAsync(Guid id)
