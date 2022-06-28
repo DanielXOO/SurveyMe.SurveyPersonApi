@@ -20,7 +20,7 @@ public sealed class SurveyOptionsRepository : ISurveyOptionsRepository
     }
     
     
-    public async Task CreateAsync(SurveyOptions options)
+    public async Task<Guid> CreateAsync(SurveyOptions options)
     {
         const string sqlCreateSurveyOption = "EXEC AddNewSurveyOption @SurveyOptionsId, @SurveyId";
 
@@ -46,6 +46,8 @@ public sealed class SurveyOptionsRepository : ISurveyOptionsRepository
                 Type = personalityOption.Type
             }, _transaction);
         }
+
+        return surveyOptionId;
     }
 
     public async Task<SurveyOptions> GetByIdAsync(Guid id)

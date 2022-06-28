@@ -5,22 +5,24 @@ using SurveyPersonOptions.Services.Abstracts;
 
 namespace SurveyPersonOptions.Services;
 
-public sealed class SurveyPersonOptionsService : IOptionsService
+public sealed class OptionsService : IOptionsService
 {
     private readonly IUnitOfWork _unitOfWork;
     
     
-    public SurveyPersonOptionsService(IUnitOfWork unitOfWork)
+    public OptionsService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
     
     
-    public async Task CreateAsync(SurveyOptions options)
+    public async Task<Guid>  CreateAsync(SurveyOptions options)
     {
-        await _unitOfWork.SurveyOptions.CreateAsync(options);
+        var id = await _unitOfWork.SurveyOptions.CreateAsync(options);
         
         _unitOfWork.Commit();
+
+        return id;
     }
 
     public async Task<SurveyOptions> GetByIdAsync(Guid id)

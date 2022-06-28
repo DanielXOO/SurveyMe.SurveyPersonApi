@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using IdentityServer4.AccessTokenValidation;
 using SurveyMe.Common.Logging;
 using SurveyPersonOptions.Api.Extensions;
@@ -19,7 +20,12 @@ builder.Services.AddRouting(options =>
     options.LowercaseUrls = true;
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -29,7 +35,7 @@ builder.Services.AddDapperConnection(connectionString);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ISurveyOptionsRepository, SurveyOptionsRepository>();
-builder.Services.AddScoped<IOptionsService, SurveyPersonOptionsService>();
+builder.Services.AddScoped<IOptionsService, OptionsService>();
 
 builder.Services.AddAutoMapper(opt =>
 {

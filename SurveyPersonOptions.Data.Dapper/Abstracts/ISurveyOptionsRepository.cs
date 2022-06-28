@@ -4,7 +4,7 @@ namespace SurveyPersonOptions.Data.Dapper.Abstracts;
 
 public interface ISurveyOptionsRepository
 {
-    Task CreateAsync(SurveyOptions options);
+    Task<Guid>  CreateAsync(SurveyOptions options);
 
     Task<SurveyOptions> GetByIdAsync(Guid id);
 

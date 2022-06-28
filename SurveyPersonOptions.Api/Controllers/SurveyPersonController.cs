@@ -10,6 +10,7 @@ using SurveyPersonOptions.Services.Abstracts;
 namespace SurveyPersonOptions.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class SurveyPersonController : Controller
 {
@@ -96,9 +97,9 @@ public class SurveyPersonController : Controller
         }
 
         var options = _mapper.Map<SurveyOptions>(optionsRequest);
-
-        await _optionsService.CreateAsync(options);
         
-        return Ok();
+        var id = await _optionsService.CreateAsync(options);
+        
+        return Ok(id);
     }
 }
