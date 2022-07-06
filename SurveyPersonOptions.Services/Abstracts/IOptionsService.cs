@@ -4,7 +4,7 @@ namespace SurveyPersonOptions.Services.Abstracts;
 
 public interface IOptionsService
 {
-    Task<Guid>  CreateAsync(SurveyOptions options);
+    Task<SurveyOptions>  CreateAsync(SurveyOptions options);
     
     Task<SurveyOptions> GetByIdAsync(Guid id);
 

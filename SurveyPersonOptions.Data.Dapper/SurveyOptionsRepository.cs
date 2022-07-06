@@ -85,12 +85,33 @@ public sealed class SurveyOptionsRepository : ISurveyOptionsRepository
     {
         const string sql = "SELECT * FROM GetSurveyOptionsBySurveyId(@SurveyId)";
 
-        var options = await _connection
-            .QueryFirstOrDefaultAsync<SurveyOptions>(sql, new
-            {
-                SurveyId = surveyId
-            }, _transaction);
+        var optionsMap = new Dictionary<Guid, SurveyOptions>();
+        
+         await _connection.QueryAsync<SurveyOptions, PersonalityOption, SurveyOptions>(sql, 
+                (surveyOptions, personalityOption) =>
+                {
+                    personalityOption.SurveyOptionsId = surveyOptions.SurveyOptionsId;
 
+                    if (optionsMap.TryGetValue(surveyOptions.SurveyId, out var existingOption))
+                    {
+                        surveyOptions = existingOption;
+                    }
+                    else
+                    {
+                        surveyOptions.Options = new List<PersonalityOption>();
+                        optionsMap.Add(surveyOptions.SurveyId, surveyOptions);
+                    }
+
+                    surveyOptions.Options.Add(personalityOption);
+
+                    return surveyOptions;
+                }, 
+                param: new { SurveyId = surveyId }, 
+                splitOn: "PersonalityOptionId", 
+                transaction: _transaction);
+
+        optionsMap.TryGetValue(surveyId, out var options);
+        
         return options;
     }
 

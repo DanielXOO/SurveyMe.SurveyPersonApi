@@ -11,7 +11,7 @@ namespace SurveyPersonOptions.Api.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
+[Route("/api/surveys/{surveyId:guid}/[controller]")]
 public class SurveyPersonController : Controller
 {
     private readonly IOptionsService _optionsService;
@@ -27,10 +27,10 @@ public class SurveyPersonController : Controller
 
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SurveyOptionsResponseModel))]
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetOptions(Guid id)
+    [HttpGet]
+    public async Task<IActionResult> GetOptions(Guid surveyId)
     {
-        var options = await _optionsService.GetByIdAsync(id);
+        var options = await _optionsService.GetBySurveyIdAsync(surveyId);
 
         var optionsResponse = _mapper.Map<SurveyOptionsResponseModel>(options);
         
@@ -39,14 +39,15 @@ public class SurveyPersonController : Controller
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPatch("{id:guid}")]
-    public async Task<IActionResult> EditOptions(SurveyOptionsEditRequestModel editRequestModel, Guid id)
+    public async Task<IActionResult> EditOptions(SurveyOptionsEditRequestModel editRequestModel, 
+        Guid id, Guid surveyId)
     {
         if (editRequestModel == null)
         {
             throw new BadRequestException("Model is empty");
         }
 
-        if (id != editRequestModel.SurveyOptionsId)
+        if (id != editRequestModel.SurveyOptionsId || surveyId != editRequestModel.SurveyId)
         {
             throw new BadRequestException("Ids do not correspond");
         }
@@ -70,7 +71,7 @@ public class SurveyPersonController : Controller
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteOptions(Guid id)
+    public async Task<IActionResult> DeleteOptions(Guid id, Guid surveyId)
     {
         await _optionsService.DeleteAsync(id);
         
@@ -79,13 +80,18 @@ public class SurveyPersonController : Controller
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpPost]
-    public async Task<IActionResult> AddOptions(SurveyOptionsCreateRequestModel optionsRequest)
+    public async Task<IActionResult> AddOptions(SurveyOptionsCreateRequestModel optionsRequest, Guid surveyId)
     {
         if (optionsRequest == null)
         {
             throw new BadRequestException("Model is empty");
         }
 
+        if (surveyId != optionsRequest.SurveyId)
+        {
+            throw new BadRequestException("Ids do not correspond");
+        }
+        
         if (!ModelState.IsValid)
         {
             var errors = ModelState.ToDictionary(
@@ -98,8 +104,10 @@ public class SurveyPersonController : Controller
 
         var options = _mapper.Map<SurveyOptions>(optionsRequest);
         
-        var id = await _optionsService.CreateAsync(options);
+        var surveyOptions = await _optionsService.CreateAsync(options);
+
+        var surveyOptionsResponse = _mapper.Map<SurveyOptionsResponseModel>(surveyOptions);
         
-        return Ok(id);
+        return CreatedAtAction(Url.Action(nameof(GetOptions)), surveyOptionsResponse);
     }
 }
