@@ -27,7 +27,11 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var filePath = Path.Combine(AppContext.BaseDirectory, "SurveyPersonOptions.Api.xml");
+    options.IncludeXmlComments(filePath);
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
