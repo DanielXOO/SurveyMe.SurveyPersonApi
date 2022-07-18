@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(filePath);
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
 
 builder.Services.AddDapperConnection(connectionString);
 
@@ -49,11 +49,10 @@ builder.Services.AddAutoMapper(opt =>
 builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
     .AddIdentityServerAuthentication(options =>
     {
-        options.Authority = "https://localhost:7179";
+        options.Authority = "https://authentication-api:5001";
         options.RequireHttpsMetadata = false;
         options.ApiName = "SurveyPersonOptions.Api";
         options.ApiSecret = "options_secret";
-        options.JwtValidationClockSkew = TimeSpan.FromSeconds(1);
     });
 
 var app = builder.Build();
