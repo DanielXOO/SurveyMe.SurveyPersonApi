@@ -49,7 +49,7 @@ builder.Services.AddAutoMapper(opt =>
 builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
     .AddIdentityServerAuthentication(options =>
     {
-        options.Authority = "https://authentication-api:5001";
+        options.Authority = "http://authentication-api";
         options.RequireHttpsMetadata = false;
         options.ApiName = "SurveyPersonOptions.Api";
         options.ApiSecret = "options_secret";
