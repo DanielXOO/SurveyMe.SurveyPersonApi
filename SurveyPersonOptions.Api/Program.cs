@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(filePath);
 });
 
-var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
+var connectionString = "Server=DESKTOP-KP79CHK;Database=SurveyPersonOptionsDb;Trusted_Connection=True;MultipleActiveResultSets=true";
 
 builder.Services.AddDapperConnection(connectionString);
 
@@ -49,7 +49,7 @@ builder.Services.AddAutoMapper(opt =>
 builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
     .AddIdentityServerAuthentication(options =>
     {
-        options.Authority = "http://authentication-api";
+        options.Authority = "https://localhost:7179";
         options.RequireHttpsMetadata = false;
         options.ApiName = "SurveyPersonOptions.Api";
         options.ApiSecret = "options_secret";
