@@ -67,6 +67,13 @@ public sealed class OptionsService : IOptionsService
 
     public async Task DeleteAsync(Guid id)
     {
+        var options = await _unitOfWork.SurveyOptions.GetByIdAsync(id);
+
+        if (options == null)
+        {
+            throw new NotFoundException("Options do not exists");
+        }
+        
         await _unitOfWork.SurveyOptions.DeleteAsync(id);
         
         _unitOfWork.Commit();

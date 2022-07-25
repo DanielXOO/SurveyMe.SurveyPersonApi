@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
-
 builder.Services.AddDapperConnection(connectionString);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
